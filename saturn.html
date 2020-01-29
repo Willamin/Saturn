@@ -7,17 +7,13 @@
   <title>Saturn</title>
   <style>
     body {
-      margin: 0;
-      background-color: #fefefe;
       line-height: 1.6em;
       font-size: 16px;
-      color: #444;
-      padding: 10px;
       font-family: sans-serif;
-
       padding: 2em;
       padding-top: 1.5em;
-      border: 1px solid lightgray;
+      border-width: 1px;
+      border-style: solid;
       border-radius: 5px;
       margin: 2em auto 30vh;
       max-width: 800px;
@@ -29,13 +25,38 @@
     }
 
     code {
-      border: 1px solid lightgray;
+      border-width: 1px;
+      border-style: solid;
       border-radius: 5px;
       padding: 2px 8px;
     }
 
     pre > code {
       display: block;
+    }
+
+    /* colors */
+
+    body {
+      background-color: #fefefe;
+      color: #444;
+      border-color: lightgray;
+    }
+
+    code {
+      border-color: lightgray;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #444;
+        color: #fefefe;
+        border-color: lightgray;
+      }
+
+      code {
+        border-color: lightgray;
+      }
     }
   </style>
 </head>

@@ -44,3 +44,7 @@ $ ruby saturn.rb  \
   < readme.saturn \
   > readme.md
 ```
+
+% hidden ruby
+# dummy
+% end

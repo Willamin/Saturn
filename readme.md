@@ -26,3 +26,26 @@ here's some data from a previous cell:
 - foo
 - bar
 - baz
+
+To recreate this Saturn file, you can run the following code snippet, which transforms the Saturn file to markdown, then uses pandoc (and an html template) to generate html. 
+```
+$ ruby saturn.rb < readme.saturn           \
+  | pandoc -f gfm                          \
+           -t html                         \
+           --metadata title=titleName      \
+           --template=saturn               \
+  > docs/index.html
+```
+
+Or as a quick readme:
+```
+$ ruby saturn.rb  \
+  < readme.saturn \
+  > readme.md
+```
+
+
+
+
+
+

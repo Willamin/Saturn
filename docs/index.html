@@ -78,5 +78,18 @@ puts(greeting + glue + name)
 <li>bar</li>
 <li>baz</li>
 </ul>
+<p>To recreate this Saturn file, you can run the following code snippet, which transforms the Saturn file to markdown, then uses pandoc (and an html template) to generate html.</p>
+<pre><code>$ ruby saturn.rb &lt; readme.saturn           \
+  | pandoc -f gfm                          \
+           -t html                         \
+           --metadata title=titleName      \
+           --template=saturn               \
+  &gt; docs/index.html
+</code></pre>
+<p>Or as a quick readme:</p>
+<pre><code>$ ruby saturn.rb  \
+  &lt; readme.saturn \
+  &gt; readme.md
+</code></pre>
 </body>
 </html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Saturn</title>
+  <style>
+    body {
+      line-height: 1.6em;
+      font-size: 16px;
+      font-family: sans-serif;
+      padding: 2em;
+      padding-top: 1.5em;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 5px;
+      margin: 2em auto 30vh;
+      max-width: 800px;
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    code {
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 5px;
+      padding: 2px 8px;
+    }
+
+    pre > code {
+      display: block;
+    }
+
+    /* colors */
+
+    body {
+      background-color: #fefefe;
+      color: #444;
+      border-color: lightgray;
+    }
+
+    code {
+      border-color: lightgray;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background-color: #444;
+        color: #fefefe;
+        border-color: lightgray;
+      }
+
+      code {
+        border-color: lightgray;
+      }
+    }
+  </style>
+</head>
+<body>
+<h1 id="saturn">Saturn</h1>
+<p>Saturn is a tool to manage data, information, and actionable code in one place. Each note consists of a single text file which contains markdown-like literate Ruby (language subject to change). A standard Saturn Code Block is denoted by lines containing only <code>% ruby</code> and <code>% end</code>.</p>
+<pre><code>greeting = &quot;hello&quot;
+glue = &quot;, &quot;
+name = &quot;world&quot;
+puts(greeting + glue + name)
+</code></pre>
+<p>hello, world</p>
+<p>Standard Saturn Code Blocks display their contents the same way a markdown code fence does. Any <code>$stdout</code> that the code generates is displayed directly afterwards as if it was the markdown-like part of the file.</p>
+<p>In the event that some code may be awkwardly long (eg. data) abbreviated Saturn Code Blocks can be denoted by lines containing only <code>% hidden ruby</code> and <code>% end</code>.</p>
+<p>To allow for more composable documents, the ruby blocks (standard and hidden) are executed as if they were concatenated. The separation throughout the document only serves the purpose of determining where <code>$stdout</code> is displayed in the output view.</p>
+<p>here's some data from a previous cell:</p>
+<ul>
+<li>foo</li>
+<li>bar</li>
+<li>baz</li>
+</ul>
+</body>
+</html>

@@ -1,4 +1,4 @@
-# A Quick Sample
+# Saturn
 
 Saturn is a tool to manage data, information, and actionable code in one place.
 Each note consists of a single text file which contains markdown-like literate Ruby (language subject to change).
@@ -28,12 +28,12 @@ some_data.each do |data|
 end
 % end
 
-To run this sample Saturn file, you can run `ruby saturn.rb < sample.saturn`, then copy the output to a markdown parser. Additionally, you can use pandoc to transpile a saturn file into an html document (styled and everything!) with:
+To recreate this Saturn file, you can run the following code snippet, which transforms the Saturn file to markdown, then uses pandoc (and an html template) to generate html. 
 ```
-$ ruby saturn.rb < sample.saturn           \
+$ ruby saturn.rb < readme.saturn           \
   | pandoc -f gfm                          \
            -t html                         \
            --metadata title=titleName      \
            --template=saturn               \
-  > output.html
+  > readme.html
 ```

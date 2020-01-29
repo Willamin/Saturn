@@ -35,5 +35,5 @@ $ ruby saturn.rb < readme.saturn           \
            -t html                         \
            --metadata title=titleName      \
            --template=saturn               \
-  > readme.html
+  > docs/readme.html
 ```

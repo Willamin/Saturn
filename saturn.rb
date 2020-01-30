@@ -95,7 +95,7 @@ if __FILE__ == $0
               input = File.read(filename)
               markdown = Saturn.render(input)
               input_buffer, out_buffer = IO.pipe
-              command = "pandoc -f gfm -t html --metadata title=titleName --template=saturn"
+              command = "pandoc -f gfm -t html --metadata title=titleName --template=#{__dir__}/saturn"
               stdout, stderr, status = Open3.capture3(command, :stdin_data => markdown)
 
               if status != 0

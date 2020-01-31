@@ -4,6 +4,7 @@ require "listen"
 require "optparse"
 require "fileutils"
 require "open3"
+require "sinatra/base"
 
 class Saturn
   def self.render(input) # string -> string
@@ -51,7 +52,7 @@ class Saturn
     pipes << IO.pipe
     $stdout = pipes.last.last
     eval(script)
-    renderings = 
+    renderings =
       pipes
         .each { |pair| pair.last.close }
         .map(&:first)
@@ -70,6 +71,20 @@ class Saturn
       )
       .join("\n")
   end
+end
+
+saturn_server = Sinatra.new do
+  get '/' do
+    Dir["./**/*.saturn"].map do |filename|
+      <<-HTML
+      <a href="./#{File.basename(filename)}.html">
+      #{filename}
+      </a>
+      HTML
+    end
+  end
+
+  set :public_folder, File.dirname(__FILE__) + '/build'
 end
 
 if __FILE__ == $0
@@ -112,7 +127,7 @@ if __FILE__ == $0
 
       watcher.start
 
-      sleep
+      saturn_server.run!
     end
   end
   op.parse!

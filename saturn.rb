@@ -87,6 +87,30 @@ saturn_server = Sinatra.new do
   set :public_folder, File.dirname(__FILE__) + '/build'
 end
 
+listener = Listen.to('.') do |modified, added, removed|
+  filename = (modified || added).first
+  if filename
+    if File.extname(filename) == ".saturn"
+      output_filename = "./build/#{File.basename(filename)}.html"
+      File.open(output_filename, "w") do |f|
+        input = File.read(filename)
+        markdown = Saturn.render(input)
+        input_buffer, out_buffer = IO.pipe
+        command = "pandoc -f gfm -t html --metadata title=titleName --template=#{__dir__}/saturn"
+        stdout, stderr, status = Open3.capture3(command, :stdin_data => markdown)
+
+        if status != 0
+          $stderr.puts("'#{filename}' -> '#{output_filename}' failed")
+          $stderr.puts(stderr)
+        else
+          f.write(stdout)
+          $stderr.puts("'#{filename}' -> '#{output_filename}' successful")
+        end
+      end
+    end
+  end
+end
+
 if __FILE__ == $0
   options = {}
   op = OptionParser.new do |opts|
@@ -98,39 +122,30 @@ if __FILE__ == $0
     end
 
     opts.on("-l", "--listen", "Listen for changes") do
-      puts("listening for changes in directory ./")
-      FileUtils.mkdir_p("./build")
+      options[:listen] = true
+    end
 
-      watcher = Listen.to('.') do |modified, added, removed|
-        filename = (modified || added).first
-        if filename
-          if File.extname(filename) == ".saturn"
-            output_filename = "./build/#{File.basename(filename)}.html"
-            File.open(output_filename, "w") do |f|
-              input = File.read(filename)
-              markdown = Saturn.render(input)
-              input_buffer, out_buffer = IO.pipe
-              command = "pandoc -f gfm -t html --metadata title=titleName --template=#{__dir__}/saturn"
-              stdout, stderr, status = Open3.capture3(command, :stdin_data => markdown)
-
-              if status != 0
-                $stderr.puts("'#{filename}' -> '#{output_filename}' failed")
-                $stderr.puts(stderr)
-              else
-                f.write(stdout)
-                $stderr.puts("'#{filename}' -> '#{output_filename}' successful")
-              end
-            end
-          end
-        end
-      end
-
-      watcher.start
-
-      saturn_server.run!
+    opts.on("-s", "--server", "Run a web server") do
+      option[:server] = true
     end
   end
   op.parse!
 
-  STDOUT.puts(Saturn.render(STDIN.read))
+  if options[:listen]
+    puts("listening for changes in directory ./")
+    FileUtils.mkdir_p("./build")
+    listener.start
+  end
+
+  if options[:server]
+    saturn_server.run!
+  end
+
+  if options[:listen] && !options[:server]
+    sleep
+  end
+
+  if !options[:listen] && !options[:server]
+    STDOUT.puts(Saturn.render(STDIN.read))
+  end
 end
